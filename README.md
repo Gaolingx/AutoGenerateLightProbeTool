@@ -16,20 +16,20 @@
 
 图1：静态、非静态物体，都没有配置好全局光照（间接光照）的效果
 
-![](../imgs/全无.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/全无.png)
 
 图2：静态物体有全局光照（间接光照）、非静态物体无间接光照的效果
 
-![](../imgs/静态有动态无.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/静态有动态无.png)
 
 图3：使用光照探针配合光照贴图，静态、非静态物体，都有间接光照效果
 
-![](../imgs/全有.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/全有.png)
 
 > 注意：
 > * 实时光照，如果想要有间接光影效果，必须将全局光照配置为 Realtime Global Illumination
 > * 实时光照，如果想要有间接光影效果，还需要将物体设置为 Contribute Global Illumination 
-    ![](../imgs/cbi.png)
+    ![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/cbi.png)
 > * 但实际游戏中，是不会使用实时全局光照  Realtime Global Illumination(耗费大，而且效果差并非完全实时)，所以要用 Mixed 光照配合 Mixed Global Illumination
 > * 为了弥补 非静态物体的间接光照效果，需要使用光照探针
 
@@ -47,15 +47,15 @@
 
 未添加 光照探针：
 
-![](../imgs/beforeLP.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/beforeLP.png)
 
 正在添加 光照探针：
 
-![](../imgs/AddingLP.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/AddingLP.png)
 
 添加光照探针后：
 
-![](../imgs/全有.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/全有.png)
 
 光照探针大致原理：在某一光照探针的所在位置点上对光照信息进行采样，然后从该光照探针相邻的其他光照探针的位置上对光照信息进行采样，把这些采样得到的光照信息进行插值运算，便可算出这些光照探针之间某个位置的光照信息。
 
@@ -79,23 +79,23 @@
 
 可以从菜单中添加 Light Probe Group 到当前场景中：Component > Rendering > Light Probe Group
 
-![](../imgs/addLPG.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/addLPG.png)
 
 光照探针组初始形态：
 
-![](../imgs/LPG.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/LPG.png)
 
 ### 2.3 属性
 
 光照探针组组件在 Inspector 窗口如下：
 
-![](../imgs/class-LightProbeGroup-20183.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-20183.png)
 
 * Edit Light Probes: 编辑光照探针，点击后，可以在场景中编辑光照探针组中的光照探针，进行增加、删除，移动位置等操作
 * Show Wireframe ：显示光照探针之间的连线组成的线框，如果禁用，则只显示探针所在点，而不显示之间的连线；
 * Remove Ringing ：去除振铃。启用此属性后，Unity 会自动从场景中移除 Light Probe 振铃。  
   在某些情况下，Light Probe 会表现出一种称为“振铃”的不良行为。当 Light Probe 周围的光线存在显着差异时，通常会发生这种情况。例如，如果光探头的一侧有亮光，而另一侧没有光，则光强度可能会在背面“过冲”。这种过冲会在背面产生一个光点。
-    ![](../imgs/class-LightProbeGroup-Ringing.png)  
+    ![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-Ringing.png)  
     启用Remove Ringing。Unity 会自动移除不希望出现的光点。但是，这通常会降低 Light Probes 的准确度，并降低光线对比度，因此您必须检查视觉结果
 * Selected Probe Position : 选定光照探针所在位置
 
@@ -105,22 +105,22 @@
 
 下面的示例显示了一个夜间场景，两侧有两个明亮的路灯，中间有一个黑暗区域。如果 Light Probe 仅放置在路灯附近，而在黑暗区域没有放置，则来自灯的照明直接穿过黑暗的缝隙，照射到移动的物体上。这是因为照明从一个亮点插入到另一个亮点，中间没有关于暗区的信息。
 
-![](../imgs/class-LightProbeGroup-12.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-12.png)
 
 如果您使用的是实时或混合光，则此问题可能不太明显，因为只有间接光会穿过间隙。如果您完全使用烘焙光，问题会更加明显
 ，因为在这种情况下，移动物体上的直射光也是由 Light Probes 插入的。在此示例场景中，两个灯被烘焙，因此移动对象从 Light Probes 获得直接光。在这里您可以看到结果 - 移动的物体（救护车）在穿过黑暗区域时保持明亮，这不是预期的效果。黄色线框四面体显示插值发生在街道明亮的一端与另一端之间。
 
-![](../imgs/class-LightProbeGroup-13.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-13.png)
 
 这是一个不希望的效果 - 救护车在通过黑暗区域时仍然保持明亮，因为没有在黑暗区域放置光探头。
 
 为了解决这个问题，你应该在黑暗区域放置更多的Light Probes，如下图：
 
-![](../imgs/class-LightProbeGroup-14.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-14.png)
 
 现在场景在黑暗区域也有光探针。因此，移动的救护车在从场景的一侧行驶到另一侧时会呈现较暗的灯光。
 
-![](../imgs/class-LightProbeGroup-15.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/class-LightProbeGroup-15.png)
 
 ## 3. 用代码添加光照探针
 
@@ -145,7 +145,7 @@
 
 完整实例：下面脚本可以将 Light Probes 放置在一个圆圈或一个环中
 
-![](../imgs/glpg.png)
+![](https://raw.githubusercontent.com/Gaolingx/AutoGenerateLightProbeTool/main/imgs/glpg.png)
 
 ``` C#
 using System.Collections.Generic;
